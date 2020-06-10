@@ -17,12 +17,11 @@ this means you'll have to do the following
 
 1. [Enable `at` on Mac OS X](https://superuser.com/a/428475)
 2. [Install GNU `date` through `coreutils`](https://apple.stackexchange.com/a/231227)
-3. Set an alias `alias date=gdate`
 
 For verification:
 
 ```bash
-$ date --version
+$ gdate --version
 date (GNU coreutils) 8.31
 Copyright (C) 2019 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.

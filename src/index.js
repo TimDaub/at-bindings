@@ -1,24 +1,26 @@
 // @format
-const { exec } = require("child_process");
+const { exec, execSync } = require("child_process");
 
-/*
- * Parameters definition
- *
- * - *cmd*: The command to be executed at a certain datetime
- * - *shift*: A time relative to the time the function is invoked. As its using
- *   at's syntax, see at's manual page:
- *
- *     Time can also be specified as: [now] + count time-units, where the
- *     time-units can be minutes, hours, days, weeks, months or years and at
- *     may be told to run the job today by suffixing the time with today and to
- *     run the job tomorrow by suf- fixing the time with tomorrow.
- */
+// NOTE: This is the format `at` expects.
+const dateFormat = "+%OI:%M %p %D";
 
-function shifted(cmd, shift) {
+// NOTE: Since Mac OS X implements a different version of date, we check for
+// the user's platform here. We use coreutils's gdate when this software is
+// executed on a Mac.
+const dateTool = process.platform === "darwin" ? "gdate" : "date";
+
+function shift(datetime) {
+  const cmd = `${dateTool} -d "${datetime}" "${dateFormat}"`;
+  return execSync(cmd).toString();
+}
+
+
+function shifted(cmd, dateVal) {
+  const datetime = shift(dateVal);
+
   return new Promise((resolve, reject) => {
-    exec(`${cmd} | at ${shift}`, (err, stdout, stderr) => {
+    exec(`${cmd} | at ${datetime}`, (err, stdout, stderr) => {
       if (err) {
-        console.warn(err);
         reject(err);
       }
       resolve(stdout ? stdout : stderr);
