@@ -1,5 +1,5 @@
 // @format
-const { exec, execSync } = require("child_process");
+const { execSync, spawnSync } = require("child_process");
 
 // NOTE: This is the format `at` expects.
 const dateFormat = "+%OI:%M %p %m/%d/%y";
@@ -18,14 +18,19 @@ function shift(datetime) {
 function schedule(cmd, dateVal) {
   const datetime = shift(dateVal);
 
-  return new Promise((resolve, reject) => {
-    exec(`${cmd} | at ${datetime}`, (err, stdout, stderr) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(stdout ? stdout : stderr);
-    });
-  });
+  // TODO:
+  const cmdOut = execSync(cmd);
+  const scheduleOut = spawnSync("at", [datetime], { input: cmd });
+
+  const jobPattern = new RegExp("job ([0-9]+) at (.+)");
+  const [match, id, date] = scheduleOut.stderr.toString().match(jobPattern);
+  return {
+    id: parseInt(id, 10),
+    date: {
+      plain: date,
+      obj: new Date(date)
+    }
+  };
 }
 
 module.exports = {

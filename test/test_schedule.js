@@ -15,3 +15,10 @@ test("shift", t => {
     new RegExp("[0-9][0-9]:[0-9][0-9] (AM|PM) [0-9][0-9]/[0-9][0-9]/[0-9][0-9]")
   );
 });
+
+test("schedule", async t => {
+  const job = schedule("echo hello", "+ 1 minutes");
+  t.assert(typeof job.id === "number");
+  t.assert(typeof job.date.plain === "string");
+  t.assert(typeof job.date.obj === "object");
+});
