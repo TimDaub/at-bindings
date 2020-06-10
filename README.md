@@ -41,20 +41,16 @@ $ npm install --save at-bindings
 
 ## Usage
 
-### `shifted`
+### `schedule`
 
 ```js
-const { shifted } = require("at-bindings")
+const { schedule } = require("at-bindings")
 
-# Prints "hello world" in 2 minutes from now
-shifted("echo 'hello world'", "now + 2 minutes")
+// Prints "hello world" in 2 minutes from now
+schedule("echo 'hello world'", "+ 2 minutes")
 ```
 
 ## Changelog
-
-### 0.0.1
-
-- Added `shifted` method
 
 ## License
 

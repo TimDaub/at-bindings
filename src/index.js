@@ -14,8 +14,7 @@ function shift(datetime) {
   return execSync(cmd).toString();
 }
 
-
-function shifted(cmd, dateVal) {
+function schedule(cmd, dateVal) {
   const datetime = shift(dateVal);
 
   return new Promise((resolve, reject) => {
@@ -29,5 +28,5 @@ function shifted(cmd, dateVal) {
 }
 
 module.exports = {
-  shifted
+  schedule
 }
