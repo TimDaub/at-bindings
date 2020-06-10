@@ -4,7 +4,8 @@
   "description": "A bindings library for datetime-based task scheduling on POSIX operating systems.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava",
+    "watch": "npm run test -- --watch --verbose"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/TimDaub/at-bindings/issues"
   },
-  "homepage": "https://github.com/TimDaub/at-bindings#readme"
+  "homepage": "https://github.com/TimDaub/at-bindings#readme",
+  "devDependencies": {
+    "ava": "^3.8.2"
+  }
 }

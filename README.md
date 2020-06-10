@@ -68,3 +68,5 @@ MIT
   `at`](https://tecadmin.net/one-time-task-scheduling-using-at-commad-in-linux/)
 - [Install GNU `date` through `coreutils` on Mac
   OS](https://apple.stackexchange.com/a/231227)
+- [Online man page of
+  `date`](https://www.man7.org/linux/man-pages/man1/date.1.html)
