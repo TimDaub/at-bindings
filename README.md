@@ -33,29 +33,43 @@ Written by David MacKenzie.
 
 ### Installing the package
 
-[wip]
-
 ```bash
 $ npm install --save at-bindings
 ```
 
 ## Usage
 
+
+### `schedule`
+
+```js
+const { schedule } = require("at-bindings");
+
+// Prints "hello world" in 1 minutes from now
+schedule("echo hello", "+ 1 minutes")
+```
+
+**NOTE:** `schedule`'s second argument accepts `date -d`'s syntax for possible
+date formats.
+
+## FAQ 
+
 ### Why use this library over other solutions?
 
 `at-bindings` uses the unix system's `atd` service to schedule tasks, which I
 imagine to be a fairly failure-safe system.
 
-### `schedule`
+### Is this library safe?
 
-```js
-const { schedule } = require("at-bindings")
-
-// Prints "hello world" in 2 minutes from now
-schedule("echo 'hello world'", "+ 2 minutes")
-```
+`at-bindings` doesn't sanitize any inputs (e.g. in the `schedule` function).
+Hence, if you pass user input to it, injections may be possible. Please take
+care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
+
+### 0.0.1
+
+- Implement `schedule` and `shift` functions
 
 ## License
 
