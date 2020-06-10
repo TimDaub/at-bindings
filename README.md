@@ -41,6 +41,11 @@ $ npm install --save at-bindings
 
 ## Usage
 
+### Why use this library over other solutions?
+
+`at-bindings` uses the unix system's `atd` service to schedule tasks, which I
+imagine to be a fairly failure-safe system.
+
 ### `schedule`
 
 ```js
