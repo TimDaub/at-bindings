@@ -39,18 +39,38 @@ $ npm install --save at-bindings
 
 ## Usage
 
-
-### `schedule`
+### `schedule(command, dateVal)`
 
 ```js
 const { schedule } = require("at-bindings");
 
 // Prints "hello world" in 1 minutes from now
-schedule("echo hello", "+ 1 minutes")
+const job = schedule("echo hello", "+ 1 minutes")
+console.log(job);
+
+{
+  id: 141,
+  date: { plain: 'Thu Jun 11 11:31:00 2020', obj: 2020-06-11T09:31:00.000Z }
+}
 ```
 
-**NOTE:** `schedule`'s second argument accepts `date -d`'s syntax for possible
-date formats.
+**NOTE:** `schedule`'s second argument (`dateVal`) accepts `date -d`'s syntax
+for possible date formats.
+
+### `list()`
+
+```js
+const { list } = require("at-bindings");
+
+// Lists all jobs currently scheduled on the system
+const jobs = list();
+console.log(jobs);
+
+[{
+  id: 141,
+  date: { plain: 'Thu Jun 11 11:31:00 2020', obj: 2020-06-11T09:31:00.000Z }
+}]
+```
 
 ## FAQ 
 
