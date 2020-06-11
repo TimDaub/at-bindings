@@ -67,6 +67,10 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.0.2
+
+- Implement `list` function
+
 ### 0.0.1
 
 - Implement `schedule` and `shift` functions
