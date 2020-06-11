@@ -87,6 +87,10 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.0.3
+
+- Fix problem with `schedule`. Command argument was executed twice.
+
 ### 0.0.2
 
 - Implement `list` function
