@@ -51,10 +51,11 @@ function jobParser(output, type) {
 function schedule(cmd, dateVal) {
   const datetime = shift(dateVal);
 
-  const cmdOut = execSync(cmd);
-  const scheduleOut = spawnSync("at", [datetime], {
-    input: cmd
-  }).stderr.toString();
+  // NOTE: Using a pipe with spawn: https://stackoverflow.com/a/39482554
+  const scheduleOut = spawnSync("sh", [
+    "-c",
+    `echo "${cmd}" | at ${datetime}`
+  ]).stderr.toString();
 
   const job = jobParser(scheduleOut, "create");
   return job;
