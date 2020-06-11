@@ -1,6 +1,7 @@
-const { schedule, shift } = require("./schedule");
+const { schedule, shift, list } = require("./schedule");
 
 module.exports = {
   schedule,
-  shift
+  shift,
+  list
 }

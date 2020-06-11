@@ -15,25 +15,59 @@ function shift(datetime) {
   return execSync(cmd).toString();
 }
 
+function jobParser(output, type) {
+  let pattern, res;
+
+  switch (type) {
+    case "create":
+      pattern = new RegExp("job ([0-9]+) at (.+)");
+      const [_, id, date] = output.match(pattern);
+      res = {
+        id: parseInt(id, 10),
+        date: {
+          plain: date,
+          obj: new Date(date)
+        }
+      };
+      break;
+    case "list":
+      pattern = new RegExp("^([0-9]+)\t(.*)$", "gm");
+      res = [...output.matchAll(pattern)];
+      res = res.map(([_, id, date]) => {
+        return {
+          id: parseInt(id, 10),
+          date: { plain: date, obj: new Date(date) }
+        };
+      });
+      break;
+    default:
+      throw new Error("jobParser type expected to be 'create' or 'list'");
+      break;
+  }
+
+  return res;
+}
+
 function schedule(cmd, dateVal) {
   const datetime = shift(dateVal);
 
-  // TODO:
   const cmdOut = execSync(cmd);
-  const scheduleOut = spawnSync("at", [datetime], { input: cmd });
+  const scheduleOut = spawnSync("at", [datetime], {
+    input: cmd
+  }).stderr.toString();
 
-  const jobPattern = new RegExp("job ([0-9]+) at (.+)");
-  const [match, id, date] = scheduleOut.stderr.toString().match(jobPattern);
-  return {
-    id: parseInt(id, 10),
-    date: {
-      plain: date,
-      obj: new Date(date)
-    }
-  };
+  const job = jobParser(scheduleOut, "create");
+  return job;
+}
+
+function list() {
+  const out = execSync("at -l").toString();
+  const jobs = jobParser(out, "list");
+  return jobs;
 }
 
 module.exports = {
   schedule,
-  shift
+  shift,
+  list
 };

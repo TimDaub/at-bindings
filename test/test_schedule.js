@@ -1,7 +1,7 @@
 // @format
 const test = require("ava");
 
-const { shift, schedule } = require("../src/schedule");
+const { shift, schedule, list } = require("../src/schedule");
 
 test("shift", t => {
   t.throws(() => shift());
@@ -21,4 +21,15 @@ test("schedule", async t => {
   t.assert(typeof job.id === "number");
   t.assert(typeof job.date.plain === "string");
   t.assert(typeof job.date.obj === "object");
+});
+
+test("list", t => {
+  // TODO: What if there's are no jobs
+  const jobs = list();
+  t.assert(Array.isArray(jobs));
+  if (jobs.length > 0) {
+    t.assert(typeof jobs[0].id === "number");
+    t.assert(typeof jobs[0].date.plain === "string");
+    t.assert(typeof jobs[0].date.obj === "object");
+  }
 });
