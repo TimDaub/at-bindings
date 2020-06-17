@@ -1,7 +1,8 @@
-const { schedule, shift, list } = require("./schedule");
+const { schedule, shift, list, ScheduleError } = require("./schedule");
 
 module.exports = {
   schedule,
   shift,
-  list
+  list,
+  ScheduleError
 }

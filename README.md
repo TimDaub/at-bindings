@@ -57,6 +57,10 @@ console.log(job);
 **NOTE:** `schedule`'s second argument (`dateVal`) accepts `date -d`'s syntax
 for possible date formats.
 
+#### `schedule` throws...
+
+- `ScheduleError` when the input date is in the past.
+
 ### `list()`
 
 ```js
@@ -70,6 +74,15 @@ console.log(jobs);
   id: 141,
   date: { plain: 'Thu Jun 11 11:31:00 2020', obj: 2020-06-11T09:31:00.000Z }
 }]
+```
+
+### Custom Error Types
+
+`at-binding` extends JavaScript with one custom error. To match it e.g. with `instanceof`,
+it can be imported using:
+
+```js
+const { ScheduleError } require("at-bindings");
 ```
 
 ## FAQ 

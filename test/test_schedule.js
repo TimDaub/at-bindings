@@ -1,7 +1,7 @@
 // @format
 const test = require("ava");
 
-const { shift, schedule, list } = require("../src/schedule");
+const { shift, schedule, list, ScheduleError } = require("../src/index");
 
 test("shift", t => {
   t.throws(() => shift());
@@ -21,6 +21,15 @@ test("schedule", async t => {
   t.assert(typeof job.id === "number");
   t.assert(typeof job.date.plain === "string");
   t.assert(typeof job.date.obj === "object");
+});
+
+test("schedule date in the past", async t => {
+  t.throws(
+    () => {
+      schedule("echo hello", new Date().toString());
+    },
+    { instanceOf: ScheduleError }
+  );
 });
 
 test("list", t => {

@@ -9,6 +9,13 @@ const dateFormat = "+%OI:%M %p %m/%d/%y";
 // executed on a Mac.
 const dateTool = process.platform === "darwin" ? "gdate" : "date";
 
+class ScheduleError extends Error {
+  constructor(msg) {
+    super(msg);
+    this.name = "ScheduleError";
+  }
+}
+
 // WARN/TODO: We're not sanitizing any inputs here.
 function shift(datetime) {
   const cmd = `${dateTool} -d "${datetime}" "${dateFormat}"`;
@@ -41,7 +48,7 @@ function jobParser(output, type) {
       });
       break;
     default:
-      throw new Error("jobParser type expected to be 'create' or 'list'");
+      throw new Error("jobParser expects type to be 'create' or 'list'");
       break;
   }
 
@@ -57,6 +64,12 @@ function schedule(cmd, dateVal) {
     `echo "${cmd}" | at ${datetime}`
   ]).stderr.toString();
 
+  // NOTE: Potential error messages can contains carriage returns, so we're
+  // trimming the strings here.
+  if (scheduleOut.trim() === "at: trying to travel back in time".trim()) {
+    throw new ScheduleError("schedule expectes a datetime in the future");
+  }
+
   const job = jobParser(scheduleOut, "create");
   return job;
 }
@@ -70,5 +83,6 @@ function list() {
 module.exports = {
   schedule,
   shift,
-  list
+  list,
+  ScheduleError
 };
