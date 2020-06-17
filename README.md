@@ -100,6 +100,10 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.0.4
+
+- Add `ScheduleError` to interrupt on dates schedules in the past.
+
 ### 0.0.3
 
 - Fix problem with `schedule`. Command argument was executed twice.
