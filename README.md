@@ -82,7 +82,7 @@ console.log(jobs);
 it can be imported using:
 
 ```js
-const { ScheduleError } require("at-bindings");
+const { ScheduleError } = require("at-bindings");
 ```
 
 ## FAQ 
