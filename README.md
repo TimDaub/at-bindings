@@ -50,7 +50,7 @@ console.log(job);
 
 {
   id: 141,
-  date: { plain: 'Thu Jun 11 11:31:00 2020', obj: 2020-06-11T09:31:00.000Z }
+  date: { plain: '2020-06-24T13:25:00.000Z', obj: 2020-06-11T09:31:00.000Z }
 }
 ```
 
@@ -72,7 +72,7 @@ console.log(jobs);
 
 [{
   id: 141,
-  date: { plain: 'Thu Jun 11 11:31:00 2020', obj: 2020-06-11T09:31:00.000Z }
+  date: { plain: '2020-06-24T13:25:00.000Z', obj: 2020-06-11T09:31:00.000Z }
 }]
 ```
 
@@ -99,6 +99,12 @@ Hence, if you pass user input to it, injections may be possible. Please take
 care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
+
+### 0.1.0
+
+- job object of `list` and `schedule` now returns a `job.date.plain` as a
+  [ISO8601
+  string](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
 
 ### 0.0.4
 
