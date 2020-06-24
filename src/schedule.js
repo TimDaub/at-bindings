@@ -32,7 +32,7 @@ function jobParser(output, type) {
       res = {
         id: parseInt(id, 10),
         date: {
-          plain: date,
+          plain: new Date(date).toISOString(),
           obj: new Date(date)
         }
       };
@@ -43,7 +43,7 @@ function jobParser(output, type) {
       res = res.map(([_, id, date]) => {
         return {
           id: parseInt(id, 10),
-          date: { plain: date, obj: new Date(date) }
+          date: { plain: new Date(date).toISOString(), obj: new Date(date) }
         };
       });
       break;
