@@ -100,6 +100,10 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.1.1
+
+- Add `remove(jobId)` function 
+
 ### 0.1.0
 
 - job object of `list` and `schedule` now returns a `job.date.plain` as a
