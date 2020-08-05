@@ -1,7 +1,16 @@
 // @format
 const test = require("ava");
+const { execSync } = require("child_process");
 
-const { shift, schedule, list, ScheduleError } = require("../src/index");
+const {
+  shift,
+  schedule,
+  list,
+  remove,
+  getContent,
+  exists,
+  ScheduleError
+} = require("../src/index");
 
 test("shift", t => {
   t.throws(() => shift());
@@ -33,7 +42,6 @@ test("schedule date in the past", async t => {
 });
 
 test("list", t => {
-  // TODO: What if there's are no jobs
   const jobs = list();
   t.assert(Array.isArray(jobs));
   if (jobs.length > 0) {
@@ -41,4 +49,34 @@ test("list", t => {
     t.assert(typeof jobs[0].date.plain === "string");
     t.assert(typeof jobs[0].date.obj === "object");
   }
+});
+
+test("remove", t => {
+  const job = schedule("echo hello", "+ 1 minutes");
+  remove(job.id);
+  t.assert(execSync(`at -c ${job.id}`).length === 0);
+  const l = list().find(j => j.id === job.id);
+  t.assert(l === undefined);
+});
+
+test("getContent", t => {
+  const job = schedule("echo hello", "+ 1 minutes");
+  const content = getContent(job.id);
+  t.assert(content && content.length > 0);
+  t.assert(typeof content === "string");
+});
+
+test("getContent with non-existing job", t => {
+  const content = getContent(1337);
+  t.assert(content.length === 0);
+  t.assert(typeof content === "string");
+});
+
+test("exists", t => {
+  const job = schedule("echo hello", "+ 1 minutes");
+  t.assert(exists(job.id));
+});
+
+test("exists but the job doesn't", t => {
+  t.assert(1337);
 });

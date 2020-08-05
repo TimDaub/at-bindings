@@ -84,10 +84,20 @@ function remove(jobId) {
   execSync(`at -r ${jobId}`).toString();
 }
 
+function getContent(jobId) {
+  return execSync(`at -c ${jobId}`).toString();
+}
+
+function exists(jobId) {
+  return list().find(job => job.id === jobId) !== undefined;
+}
+
 module.exports = {
   schedule,
   shift,
   list,
   remove,
+  getContent,
+  exists,
   ScheduleError
 };

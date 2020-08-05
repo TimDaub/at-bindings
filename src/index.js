@@ -1,9 +1,20 @@
-const { schedule, shift, list, remove, ScheduleError } = require("./schedule");
+// @format
+const {
+  schedule,
+  shift,
+  list,
+  remove,
+  getContent,
+  exists,
+  ScheduleError
+} = require("./schedule");
 
 module.exports = {
   schedule,
   shift,
   list,
   remove,
+  getContent,
+  exists,
   ScheduleError
-}
+};

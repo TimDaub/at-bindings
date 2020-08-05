@@ -76,6 +76,46 @@ console.log(jobs);
 }]
 ```
 
+### `remove(jobId)`
+
+```js
+const { remove } = require("at-bindings");
+
+// Removes a job for a given id
+remove(1234);
+```
+
+**NOTE:** Function doesn't throw on on-existent job, as `at -r
+<jobId>` does so neither.
+
+### `getContent(jobId)`
+
+```js
+const { getContent } = require("at-bindings");
+
+const content = getContent(1);
+console.log(content);
+
+> #!/bin/sh
+> # atrun uid=501 gid=20
+> ...
+```
+
+### `exists(jobId)`
+
+```js
+const { exists, schedule } = require("at-bindings");
+
+const res = exists(schedule("echo hello", "+ 1 minutes").id);
+console.log(res);
+
+> true
+
+console.log(exists(1337));
+
+> false
+```
+
 ### Custom Error Types
 
 `at-binding` extends JavaScript with one custom error. To match it e.g. with `instanceof`,
@@ -99,6 +139,13 @@ Hence, if you pass user input to it, injections may be possible. Please take
 care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
+
+### 0.1.2
+
+- Add `exists(jobId)` function
+- Add `getContent(jobId)` function
+- Added more tests
+- Documented all functions in README.md
 
 ### 0.1.1
 
