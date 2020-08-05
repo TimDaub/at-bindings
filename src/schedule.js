@@ -80,9 +80,14 @@ function list() {
   return jobs;
 }
 
+function remove(jobId) {
+  execSync(`at -r ${jobId}`).toString();
+}
+
 module.exports = {
   schedule,
   shift,
   list,
+  remove,
   ScheduleError
 };
