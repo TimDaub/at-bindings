@@ -85,8 +85,7 @@ const { remove } = require("at-bindings");
 remove(1234);
 ```
 
-**NOTE:** Function doesn't throw on on-existent job, as `at -r
-<jobId>` does so neither.
+**NOTE:** Function throws `IndexError` if jobId wasn't found.
 
 ### `getContent(jobId)`
 
@@ -118,11 +117,11 @@ console.log(exists(1337));
 
 ### Custom Error Types
 
-`at-binding` extends JavaScript with one custom error. To match it e.g. with `instanceof`,
-it can be imported using:
+`at-binding` extends JavaScript with two custom errors. To match them e.g.
+with `instanceof`, they can be imported using:
 
 ```js
-const { ScheduleError } = require("at-bindings");
+const { ScheduleError, IndexError } = require("at-bindings");
 ```
 
 ## FAQ 

@@ -9,13 +9,30 @@ const dateFormat = "+%OI:%M %p %m/%d/%y";
 // executed on a Mac.
 const dateTool = process.platform === "darwin" ? "gdate" : "date";
 
-// TODO: Implement correctly inheriting errors
 class ScheduleError extends Error {
-  constructor(msg) {
-    super(msg);
+  constructor(...params) {
+    super(...params);
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ScheduleError);
+    }
+
     this.name = "ScheduleError";
   }
 }
+
+class IndexError extends Error {
+  constructor(...params) {
+    super(...params);
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, IndexError);
+    }
+
+    this.name = "IndexError";
+  }
+}
+
 
 // WARN/TODO: We're not sanitizing any inputs here.
 function shift(datetime) {
@@ -88,7 +105,7 @@ function remove(jobId) {
   if (exists(jobId)) {
     execSync(`at -r ${jobId}`).toString();
   } else {
-    throw new Error(`Job with id: "${jobId}" doesn't exist`);
+    throw new IndexError(`Job with id: "${jobId}" doesn't exist`);
   }
 }
 
