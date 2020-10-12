@@ -9,6 +9,7 @@ const dateFormat = "+%OI:%M %p %m/%d/%y";
 // executed on a Mac.
 const dateTool = process.platform === "darwin" ? "gdate" : "date";
 
+// TODO: Implement correctly inheriting errors
 class ScheduleError extends Error {
   constructor(msg) {
     super(msg);
@@ -81,7 +82,14 @@ function list() {
 }
 
 function remove(jobId) {
-  execSync(`at -r ${jobId}`).toString();
+  // NOTE: We check if the job exists as we'd like to provide a unified user
+  // experience. By default, UNIX and Mac OS react differently to a non-
+  // existing jobs.  UNIX exits the process with an error, Mac OS doesn't.
+  if (exists(jobId)) {
+    execSync(`at -r ${jobId}`).toString();
+  } else {
+    throw new Error(`Job with id: "${jobId}" doesn't exist`);
+  }
 }
 
 function getContent(jobId) {

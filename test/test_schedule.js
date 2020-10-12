@@ -59,6 +59,13 @@ test("remove", t => {
   t.assert(l === undefined);
 });
 
+test("if remove throws on non-existent job", t => {
+  t.throws(() => {
+    const nonExistent = 1337;
+    remove(nonExistent);
+  });
+});
+
 test("getContent", t => {
   const job = schedule("echo hello", "+ 1 minutes");
   const content = getContent(job.id);
