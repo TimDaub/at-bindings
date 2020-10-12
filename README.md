@@ -1,5 +1,7 @@
 # at-bindings
 
+[![npm version](https://badge.fury.io/js/at-bindings.svg)](https://badge.fury.io/js/at-bindings)
+
 > A bindings library for datetime-based task scheduling on POSIX operating
 > systems.
 
