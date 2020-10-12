@@ -9,8 +9,14 @@ const {
   remove,
   getContent,
   exists,
-  ScheduleError
+  ScheduleError,
+  IndexError
 } = require("../src/index");
+
+test("if errors are exported", t => {
+  t.assert(ScheduleError);
+  t.assert(IndexError);
+});
 
 test("shift", t => {
   t.throws(() => shift());

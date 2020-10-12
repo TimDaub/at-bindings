@@ -6,7 +6,8 @@ const {
   remove,
   getContent,
   exists,
-  ScheduleError
+  ScheduleError,
+  IndexError
 } = require("./schedule");
 
 module.exports = {
@@ -16,5 +17,6 @@ module.exports = {
   remove,
   getContent,
   exists,
-  ScheduleError
+  ScheduleError,
+  IndexError
 };

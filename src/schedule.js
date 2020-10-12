@@ -33,7 +33,6 @@ class IndexError extends Error {
   }
 }
 
-
 // WARN/TODO: We're not sanitizing any inputs here.
 function shift(datetime) {
   const cmd = `${dateTool} -d "${datetime}" "${dateFormat}"`;
@@ -124,5 +123,6 @@ module.exports = {
   remove,
   getContent,
   exists,
-  ScheduleError
+  ScheduleError,
+  IndexError
 };
