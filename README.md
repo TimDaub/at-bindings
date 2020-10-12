@@ -139,6 +139,10 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.2.0
+
+- `remove(jobId)` now throws an `IndexError` on non-existent jobs
+
 ### 0.1.2
 
 - Add `exists(jobId)` function
