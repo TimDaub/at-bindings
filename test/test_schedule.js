@@ -11,7 +11,9 @@ const {
   exists,
   ScheduleError,
   IndexError
-} = require("../src/index");
+} = require("../src/index.js");
+
+const { jobParser } = require("../src/schedule.js");
 
 test("if errors are exported", t => {
   t.assert(ScheduleError);
@@ -92,4 +94,30 @@ test("exists", t => {
 
 test("exists but the job doesn't", t => {
   t.assert(1337);
+});
+
+test("if output with user name can be read by job parser", t => {
+  const output = `79\tMon Oct 26 16:03:00 2020 a root
+78\tMon Oct 26 15:31:00 2020 a root
+80\tMon Oct 26 15:35:00 2020 a root
+`;
+
+  const jobs = jobParser(output, "list");
+  t.assert(jobs && jobs.length === 3);
+  t.assert(jobs[0].id === 79);
+  // NOTE: We're assuming UTC.
+  t.assert(jobs[0].date.obj.getTime() / 1000 === 1603724580);
+});
+
+test("if output without user name can be read by job parser", t => {
+  const output = `79\tMon Oct 26 16:03:00 2020
+78\tMon Oct 26 15:31:00 2020
+80\tMon Oct 26 15:35:00 2020
+`;
+
+  const jobs = jobParser(output, "list");
+  t.assert(jobs && jobs.length === 3);
+  t.assert(jobs[0].id === 79);
+  // NOTE: We're assuming UTC.
+  t.assert(jobs[0].date.obj.getTime() / 1000 === 1603724580);
 });

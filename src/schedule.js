@@ -55,7 +55,10 @@ function jobParser(output, type) {
       };
       break;
     case "list":
-      pattern = new RegExp("^([0-9]+)\t(.*)$", "gm");
+      // NOTE: In some cases, the OS also displays which user has scheduled a
+      // task, which is usually appended with e.g. "as root". We account for
+      // this in the following regexp:
+      pattern = new RegExp("^([0-9]+)\t(.+?)(?= a |$)", "gm");
       res = [...output.matchAll(pattern)];
       res = res.map(([_, id, date]) => {
         return {
@@ -124,5 +127,6 @@ module.exports = {
   getContent,
   exists,
   ScheduleError,
-  IndexError
+  IndexError,
+  jobParser
 };
