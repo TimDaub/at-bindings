@@ -149,7 +149,7 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 require("at-bindings").schedule("echo hello", new Date())
 ```
 
-would work on Ubuntu, but gdate would throw an error: `at: trying to travel
+would work on Ubuntu, but gdate (Mac OS) would throw an error: `at: trying to travel
 back in time`. By checking for minutal differences, both operating systems
 should now throw on the above statement.
 
