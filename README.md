@@ -141,6 +141,18 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.2.3
+
+- Previously:
+
+```node
+require("at-bindings").schedule("echo hello", new Date())
+```
+
+would work on Ubuntu, but gdate would throw an error: `at: trying to travel
+back in time`. By checking for minutal differences, both operating systems
+should now throw on the above statement.
+
 ### 0.2.2
 
 - For outputs of `at -l` that include a user name e.g. "... a root",
