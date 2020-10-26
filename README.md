@@ -141,6 +141,11 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.2.2
+
+- For outputs of `at -l` that include a user name e.g. "... a root",
+at-binding's job parser can now read these too.
+
 ### 0.2.1
 
 - Export `IndexError`
