@@ -28,5 +28,8 @@
   "homepage": "https://github.com/TimDaub/at-bindings#readme",
   "devDependencies": {
     "ava": "^3.8.2"
+  },
+  "dependencies": {
+    "date-fns": "2.16.1"
   }
 }

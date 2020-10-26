@@ -1,5 +1,7 @@
 // @format
 const { execSync, spawnSync } = require("child_process");
+const diffInSecs = require("date-fns/differenceInSeconds");
+const parse = require("date-fns/parse");
 
 // NOTE: This is the format `at` expects.
 const dateFormat = "+%OI:%M %p %m/%d/%y";
@@ -36,7 +38,9 @@ class IndexError extends Error {
 // WARN/TODO: We're not sanitizing any inputs here.
 function shift(datetime) {
   const cmd = `${dateTool} -d "${datetime}" "${dateFormat}"`;
-  return execSync(cmd).toString();
+  return execSync(cmd)
+    .toString()
+    .trim();
 }
 
 function jobParser(output, type) {
@@ -75,8 +79,17 @@ function jobParser(output, type) {
   return res;
 }
 
+function isPast(datetime) {
+  const jsDate = parse(datetime, "hh:mm a MM/dd/yy", new Date());
+  const diff = diffInSecs(new Date(), jsDate);
+  return diff >= 0;
+}
+
 function schedule(cmd, dateVal) {
   const datetime = shift(dateVal);
+  if (isPast(datetime)) {
+    throw new ScheduleError("schedule expectes a datetime in the future (#2)");
+  }
 
   // NOTE: Using a pipe with spawn: https://stackoverflow.com/a/39482554
   const scheduleOut = spawnSync("sh", [
@@ -87,7 +100,7 @@ function schedule(cmd, dateVal) {
   // NOTE: Potential error messages can contains carriage returns, so we're
   // trimming the strings here.
   if (scheduleOut.trim() === "at: trying to travel back in time".trim()) {
-    throw new ScheduleError("schedule expectes a datetime in the future");
+    throw new ScheduleError("schedule expectes a datetime in the future (#1)");
   }
 
   const job = jobParser(scheduleOut, "create");
@@ -128,5 +141,6 @@ module.exports = {
   exists,
   ScheduleError,
   IndexError,
-  jobParser
+  jobParser,
+  isPast
 };

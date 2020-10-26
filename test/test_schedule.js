@@ -1,6 +1,9 @@
 // @format
 const test = require("ava");
 const { execSync } = require("child_process");
+const diffInSecs = require("date-fns/differenceInSeconds");
+const add = require("date-fns/add");
+const sub = require("date-fns/sub");
 
 const {
   shift,
@@ -13,7 +16,7 @@ const {
   IndexError
 } = require("../src/index.js");
 
-const { jobParser } = require("../src/schedule.js");
+const { jobParser, isPast } = require("../src/schedule.js");
 
 test("if errors are exported", t => {
   t.assert(ScheduleError);
@@ -31,6 +34,11 @@ test("shift", t => {
     testDate,
     new RegExp("[0-9][0-9]:[0-9][0-9] (AM|PM) [0-9][0-9]/[0-9][0-9]/[0-9][0-9]")
   );
+});
+
+test("to avoid that shift contains a line break", t => {
+  const testDate = shift("+ 2 days");
+  t.notRegex(testDate, new RegExp("[\r\n]+"));
 });
 
 test("schedule", async t => {
@@ -120,4 +128,53 @@ test("if output without user name can be read by job parser", t => {
   t.assert(jobs[0].id === 79);
   // NOTE: We're assuming UTC.
   t.assert(jobs[0].date.obj.getTime() / 1000 === 1603724580);
+});
+
+test("if assumptions about date-fns diff methods are correct", t => {
+  let now = new Date();
+  // NOTE: On date-fns docs, they say that dateRight is the "later date". Since
+  // we always compare now with the alarm time and since we assume that the
+  // alarm is always in the future, we say the alarm is the "later date".
+  // For reference see: https://date-fns.org/v2.16.1/docs/differenceInMinutes
+  let futureAlarm = add(now, { minutes: 1 });
+  let pastAlarm = sub(now, { minutes: 1 });
+  let slightlyPastAlarm = sub(now, { seconds: 1 });
+  t.assert(diffInSecs(now, futureAlarm) === -60);
+  t.assert(diffInSecs(now, now) === 0);
+  t.assert(diffInSecs(now, pastAlarm) === 60);
+  t.assert(diffInSecs(now, slightlyPastAlarm) === 1);
+
+  now = new Date();
+  futureAlarm = add(now, { minutes: 1 });
+  pastAlarm = sub(now, { minutes: 1 });
+  // NOTE: We ignore submitting now, as too much time passes between isPast
+  // (that instantiates its own "now") and the test's "now".
+  t.assert(!isPast(shift(futureAlarm.toISOString())));
+  t.assert(isPast(shift(pastAlarm.toISOString())));
+});
+
+test("if scheduling a job with a date that represents now fails", t => {
+  try {
+    schedule("echo hello", new Date());
+  } catch (err) {
+    if (err instanceof ScheduleError) {
+      t.assert(err.message.includes("#2"));
+      t.assert(!err.message.includes("#1"));
+    }
+  }
+});
+
+test("if scheduling is only possible 60 seconds into the future", t => {
+  const now = new Date();
+  const futureAlarm = add(now, { minutes: 1 });
+  const pastAlarm = sub(now, { minutes: 1 });
+  schedule("echo hello", futureAlarm);
+  try {
+    schedule("echo hello", pastAlarm);
+  } catch (err) {
+    if (err instanceof ScheduleError) {
+      t.assert(err.message.includes("#2"));
+      t.assert(!err.message.includes("#1"));
+    }
+  }
 });
