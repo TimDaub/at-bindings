@@ -67,10 +67,10 @@ test("list", t => {
   }
 });
 
-test("remove", t => {
+test("remove a job", t => {
   const job = schedule("echo hello", "+ 1 minutes");
   remove(job.id);
-  t.assert(execSync(`at -c ${job.id}`).length === 0);
+  t.throws(() => getContent(job.id), { instanceOf: IndexError });
   const l = list().find(j => j.id === job.id);
   t.assert(l === undefined);
 });
@@ -90,9 +90,7 @@ test("getContent", t => {
 });
 
 test("getContent with non-existing job", t => {
-  const content = getContent(1337);
-  t.assert(content.length === 0);
-  t.assert(typeof content === "string");
+  t.throws(() => getContent(1337), { instanceOf: IndexError });
 });
 
 test("exists", t => {

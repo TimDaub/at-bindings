@@ -102,6 +102,9 @@ console.log(content);
 > ...
 ```
 
+In cases where no job could be found or where the job content equals the empty
+string, an `IndexError` is thrown.
+
 ### `exists(jobId)`
 
 ```js

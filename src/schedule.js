@@ -125,7 +125,21 @@ function remove(jobId) {
 }
 
 function getContent(jobId) {
-  return execSync(`at -c ${jobId}`).toString();
+  let content;
+
+  try {
+    content = execSync(`at -c ${jobId}`).toString();
+  } catch (err) {
+    if (err.toString().includes(`Cannot find jobid ${jobId}`)) {
+      throw new IndexError(`Job with id: "${jobId}" doesn't exist`);
+    }
+  }
+
+  if (!content) {
+    throw new IndexError(`Job with id: "${jobId}" doesn't exist`);
+  }
+
+  return content;
 }
 
 function exists(jobId) {
