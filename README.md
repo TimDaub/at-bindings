@@ -56,8 +56,11 @@ console.log(job);
 }
 ```
 
-**NOTE:** `schedule`'s second argument (`dateVal`) accepts `date -d`'s syntax
-for possible date formats.
+**NOTE:** `schedule`'s second argument (`dateVal`) accepts the following date
+format syntax:
+
+- output of `date -d`
+- ISO 8601 e.g. from `new Date().toISOString()`
 
 #### `schedule` throws...
 

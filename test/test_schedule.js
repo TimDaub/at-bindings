@@ -4,6 +4,7 @@ const { execSync } = require("child_process");
 const diffInSecs = require("date-fns/differenceInSeconds");
 const add = require("date-fns/add");
 const sub = require("date-fns/sub");
+const isSameMinute = require("date-fns/isSameMinute");
 
 const {
   shift,
@@ -46,6 +47,16 @@ test("schedule", async t => {
   t.assert(typeof job.id === "number");
   t.assert(typeof job.date.plain === "string");
   t.assert(typeof job.date.obj === "object");
+});
+
+test("if iso 8601 format can be used for scheduling", async t => {
+  const date = add(new Date(), { minutes: 3 });
+  const fDate = date.toISOString();
+  const job = schedule("echo hello", fDate);
+  t.assert(typeof job.id === "number");
+  t.assert(typeof job.date.plain === "string");
+  t.assert(typeof job.date.obj === "object");
+  t.true(isSameMinute(new Date(job.date.plain), new Date(fDate)));
 });
 
 test("schedule date in the past", async t => {
