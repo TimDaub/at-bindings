@@ -147,6 +147,12 @@ care of sanitizing your inputs! Help/feedback is appreciated.
 
 ## Changelog
 
+### 0.3.0
+
+- `getContent(jobId)` now throws when no job is found or content of job is
+  falsy (breaking change).
+- Using `schedule` with ISO 8601 dates is now officially supported.
+
 ### 0.2.3
 
 - Previously:
