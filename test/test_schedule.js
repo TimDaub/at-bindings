@@ -109,10 +109,10 @@ test("if output with user name can be read by job parser", t => {
 `;
 
   const jobs = jobParser(output, "list");
-  t.assert(jobs && jobs.length === 3);
-  t.assert(jobs[0].id === 79);
+  t.is(jobs && jobs.length, 3);
+  t.is(jobs[0].id, 79);
   // NOTE: We're assuming UTC.
-  t.assert(jobs[0].date.obj.getTime() / 1000 === 1603724580);
+  t.is(jobs[0].date.obj.getTime() / 1000, 1603724580);
 });
 
 test("if output without user name can be read by job parser", t => {
@@ -122,10 +122,10 @@ test("if output without user name can be read by job parser", t => {
 `;
 
   const jobs = jobParser(output, "list");
-  t.assert(jobs && jobs.length === 3);
-  t.assert(jobs[0].id === 79);
+  t.is(jobs && jobs.length, 3);
+  t.is(jobs[0].id, 79);
   // NOTE: We're assuming UTC.
-  t.assert(jobs[0].date.obj.getTime() / 1000 === 1603724580);
+  t.is(jobs[0].date.obj.getTime() / 1000, 1603724580);
 });
 
 test("if assumptions about date-fns diff methods are correct", t => {
