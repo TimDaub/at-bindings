@@ -103,7 +103,8 @@ test("exists but the job doesn't", t => {
 });
 
 test("if output with user name can be read by job parser", t => {
-  const output = `79\tMon Oct 26 16:03:00 2020 a root
+  const fDate = "Mon Oct 26 16:03:00 2020";
+  const output = `79\t${fDate}
 78\tMon Oct 26 15:31:00 2020 a root
 80\tMon Oct 26 15:35:00 2020 a root
 `;
@@ -111,12 +112,12 @@ test("if output with user name can be read by job parser", t => {
   const jobs = jobParser(output, "list");
   t.is(jobs && jobs.length, 3);
   t.is(jobs[0].id, 79);
-  // NOTE: We're assuming UTC.
-  t.is(jobs[0].date.obj.getTime() / 1000, 1603724580);
+  t.is(jobs[0].date.obj.getTime(), new Date(fDate).getTime());
 });
 
 test("if output without user name can be read by job parser", t => {
-  const output = `79\tMon Oct 26 16:03:00 2020
+  const fDate = "Mon Oct 26 16:03:00 2020";
+  const output = `79\t${fDate}
 78\tMon Oct 26 15:31:00 2020
 80\tMon Oct 26 15:35:00 2020
 `;
@@ -124,8 +125,7 @@ test("if output without user name can be read by job parser", t => {
   const jobs = jobParser(output, "list");
   t.is(jobs && jobs.length, 3);
   t.is(jobs[0].id, 79);
-  // NOTE: We're assuming UTC.
-  t.is(jobs[0].date.obj.getTime() / 1000, 1603724580);
+  t.is(jobs[0].date.obj.getTime(), new Date(fDate).getTime());
 });
 
 test("if assumptions about date-fns diff methods are correct", t => {

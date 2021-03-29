@@ -67,6 +67,9 @@ function jobParser(output, type) {
       res = res.map(([_, id, date]) => {
         return {
           id: parseInt(id, 10),
+          // NOTE: By taking our parsed string date here and casting it to a
+          // JS date without an information about a timezone, we implicitly
+          // assume the machine's timezone configuration here.
           date: { plain: new Date(date).toISOString(), obj: new Date(date) }
         };
       });
