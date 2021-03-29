@@ -1,6 +1,6 @@
 # at-bindings
 
-[![npm version](https://badge.fury.io/js/at-bindings.svg)](https://badge.fury.io/js/at-bindings)
+[![npm version](https://badge.fury.io/js/at-bindings.svg)](https://badge.fury.io/js/at-bindings) [![Node.js CI](https://github.com/TimDaub/at-bindings/actions/workflows/node.js.yml/badge.svg)](https://github.com/TimDaub/at-bindings/actions/workflows/node.js.yml)
 
 > A bindings library for datetime-based task scheduling on POSIX operating
 > systems.
